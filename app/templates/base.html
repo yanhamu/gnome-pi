@@ -13,9 +13,30 @@
         {% endif %}
     </head>
     <body>
-        <div> Gnome: <a href="/index">Home</a></div>
-        <hr>
-        {% block content %}{% endblock %}
+        <div class="container">
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="/">Gnome</a>
+                    </div>
+                    <div id="navbar" class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <a href="#">Home</a>
+                            </li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li>
+                                <a href="#">Log out</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <div class="container-fluid">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
 
         <script src="/static/js/jquery-1-12-4.min.js"></script>
         <script src="/static/js/bootstrap.min.js"></script>
