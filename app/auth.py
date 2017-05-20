@@ -1,13 +1,13 @@
-from flask_wtf import Form
+from flask_wtf import FlaskForm
 from wtforms import PasswordField
 from wtforms.fields.html5 import EmailField
 from wtforms.validators import DataRequired
 
 def signin():
-    form = SignInForm()
+    form = LogInForm()
     return form
     
 
-class SignInForm(Form):
+class LogInForm(FlaskForm):
     email = EmailField('Email address', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
