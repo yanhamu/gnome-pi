@@ -1,5 +1,5 @@
 from flask import render_template
-from app import app
+from app import app, auth
 
 @app.route('/')
 @app.route('/index')
@@ -19,10 +19,12 @@ def index():
 
 @app.route('/signin', methods=['GET','POST'])
 def signin():
-    return render_template('signin.html', title='Sign in')
+    form = auth.signin()
+    print(form.email)
+    return render_template('signin.html', title='Sign in', form = form)
     
 @app.route('/signup', methods=['GET','POST'])
-def signun():
+def signup():
     return render_template('signup.html', title='Sign up')
    
 @app.route('/account/<id>')
