@@ -1,30 +1,23 @@
-from flask import render_template, redirect, flash, request
+from flask import render_template, redirect, flash, request, g
 from app import app, auth, bauth
+from pymongo import MongoClient
 
 @app.route('/')
 @app.route('/index')
 def index():
-    user = {'nickname': 'Tom'}   
-    posts = [
-            {
-                'author':{'nickname':'John'},
-                'body': 'Beautiful day'
-            },
-            {
-                'author': {'nickname':'Susan'},
-                'body':'Avengers'
-            }
-            ]
-    return render_template('index.html', title='Home', user=user, posts=posts)
+    return render_template('index.html', title='Home')
 
 @app.route('/login', methods=['GET','POST'])
 def login():
     form = auth.LogInForm()
     if form.validate_on_submit():
-        flash('maybe')
-        response = redirect('/dashboard')
-        response.set_cookie('bauth','xxx')
-        return response
+        email = form.email.data
+        password = form.password.data
+        if bauth.checkuser(email, password):
+            response = redirect('/dashboard')
+            response.set_cookie('bauth', bauth.encode(email, password))
+            return response
+        flash('invalid credentials')
     return render_template('login.html', title='Log in', form=form)
     
 @app.route('/signup', methods=['GET','POST'])
@@ -43,6 +36,6 @@ def dashboard():
     
 @app.before_request
 def before_request():
-    print('before request')
-    
+    db = MongoClient().client.gnomeDb
+    g.db = db
 

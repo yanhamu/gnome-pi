@@ -3,10 +3,8 @@ from wtforms import PasswordField
 from wtforms.fields.html5 import EmailField
 from wtforms.validators import DataRequired
 
-def signin():
-    form = LogInForm()
-    return form
-    
+from pymongo import MongoClient
+from flask import g
 
 class LogInForm(FlaskForm):
     email = EmailField('Email address', validators=[DataRequired()])
