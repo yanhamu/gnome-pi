@@ -1,4 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>Account {{ id }}!</h1>
+    <h1>Account {{ form.name.data }}</h1>
+    
+    <form method='post'>
+        <div class="form-group">
+            <label for="name">Name</label>
+            {{ form.name(class_="form-control") }}
+        </div>
+        <input type="submit" value="save" class="btn btn-default" />
+    </form>
 {% endblock %}

@@ -52,10 +52,13 @@ def accounts_create():
     new_account = accounts.create_new()
     return redirect('accounts/{0}'.format(new_account['id']))
 
-@app.route('/accounts/<id>')
+@app.route('/accounts/<int:id>', methods=['GET','POST'])
 @bauth.bauth
 def account(id):
-    return render_template('account.html', title='Account', id=id)
+    account = accounts.get_account(id)
+    form = accounts.AccountForm()
+    form.name.data = account['name']
+    return render_template('account.html', title='Account', form=form)
     
 @app.route('/dashboard')
 @bauth.bauth
