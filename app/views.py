@@ -1,5 +1,5 @@
 from flask import render_template, redirect, flash, request, g
-from app import app, auth, bauth
+from app import app, auth, bauth, accounts
 from pymongo import MongoClient
 
 @app.route('/')
@@ -40,7 +40,19 @@ def signup():
         return resp
     return render_template('signup.html', title='Sign up', form=form)
    
-@app.route('/account/<id>')
+@app.route('/accounts', methods=['GET'])
+@bauth.bauth
+def accounts_index():
+    model = accounts.get_accounts()
+    return render_template('accounts.html', model = model)
+    
+@app.route('/accounts', methods=['POST'])
+@bauth.bauth
+def accounts_create():
+    new_account = accounts.create_new()
+    return redirect('accounts/{0}'.format(new_account['id']))
+
+@app.route('/accounts/<id>')
 @bauth.bauth
 def account(id):
     return render_template('account.html', title='Account', id=id)
