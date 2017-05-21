@@ -12,7 +12,7 @@ def login():
     form = auth.LogInForm()
     if form.validate_on_submit():
         email, password = form.email.data, form.password.data
-        if bauth.checkuser(email, password):
+        if bauth.check_user(email, password):
             resp = redirect('/dashboard')
             resp.set_cookie('bauth', bauth.encode(email, password))
             return resp
@@ -54,4 +54,5 @@ def dashboard():
 def before_request():
     db = MongoClient().client.gnomeDb
     g.db = db
+    g.user = bauth.try_to_get_user()
 

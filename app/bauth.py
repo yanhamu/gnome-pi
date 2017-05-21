@@ -7,23 +7,24 @@ import base64
 def bauth(fn):
     @wraps(fn)
     def decorator(*args, **kwargs):
-        email, password = _getCookie()
-        result = checkuser(email, password)
-        print(result)
-        if result:
-            g.user = g.db.users.find_one({'email':email})
+        if try_to_get_user():
             return fn(*args, **kwargs)
         else: 
             abort(401)
             return None
     return decorator
 
-def checkuser(email, password):
+def try_to_get_user():
+    email, password = _getCookie()
+    if check_user(email, password):
+        return g.db.users.find_one({'email':email})
+    return None
+
+def check_user(email, password):
     if email is None or password is None:
         return False
         
-    users = g.db.users
-    user = users.find_one({'email':email})
+    user = g.db.users.find_one({'email':email})
     if user:
         return _issame(user['password'], password)
     else:
@@ -42,7 +43,6 @@ def create_new(email, password):
             "email":email,
             "password":password
         })
-    g.user = g.db.users.find_one({'email':email})
     return
     
 def encode(email, password):
