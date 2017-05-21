@@ -11,18 +11,34 @@ def index():
 def login():
     form = auth.LogInForm()
     if form.validate_on_submit():
-        email = form.email.data
-        password = form.password.data
+        email, password = form.email.data, form.password.data
         if bauth.checkuser(email, password):
-            response = redirect('/dashboard')
-            response.set_cookie('bauth', bauth.encode(email, password))
-            return response
+            resp = redirect('/dashboard')
+            resp.set_cookie('bauth', bauth.encode(email, password))
+            return resp
         flash('invalid credentials')
     return render_template('login.html', title='Log in', form=form)
     
+@app.route('/logout', methods=['GET'])
+@bauth.bauth
+def logout():
+    resp = redirect('/index')
+    resp.set_cookie('bauth', '', expires=0)
+    return resp
+
 @app.route('/signup', methods=['GET','POST'])
 def signup():
-    return render_template('signup.html', title='Sign up')
+    form = auth.LogInForm()
+    if form.validate_on_submit():
+        email, password = form.email.data, form.password.data
+        if not bauth.isfree(email):
+            flash('email is already registered')
+            return render_template('signup.html', title='Sign up', form=form)
+        bauth.create_new(email, password)
+        resp = redirect('/dashboard')
+        resp.set_cookie('bauth', bauth.encode(email, password))
+        return resp
+    return render_template('signup.html', title='Sign up', form=form)
    
 @app.route('/account/<id>')
 @bauth.bauth

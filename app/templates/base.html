@@ -17,17 +17,27 @@
             <nav class="navbar navbar-default">
                 <div class="container-fluid">
                     <div class="navbar-header">
+                        {% if g.user %}
+                        <a class="navbar-brand" href="/dashboard">Gnome</a>
+                        {% else %}
                         <a class="navbar-brand" href="/">Gnome</a>
+                        {% endif %}
                     </div>
                     <div id="navbar" class="navbar-collapse collapse">
+                        {% if g.user %}
                         <ul class="nav navbar-nav">
                             <li>
                                 <a href="#">Home</a>
                             </li>
                         </ul>
+                        {% endif %}
                         <ul class="nav navbar-nav navbar-right">
                             <li>
-                                <a href="#">Log out</a>
+                                {% if g.user %}
+                                <a href="/logout">log out</a>
+                                {% else %}
+                                <a href="/login">log in</a>
+                                {% endif %}
                             </li>
                         </ul>
                     </div>
@@ -36,8 +46,8 @@
             <div class="container-fluid">
                 {% with messages = get_flashed_messages() %}
                     {% if messages %}
-                    <ul>
-                        <div class="row">
+                    <div class="row">
+                        <ul>
                         {% for message in messages %}
                             <li>{{ message }} </li>
                         {% endfor %}
