@@ -83,7 +83,7 @@ def dashboard():
     
 @app.before_request
 def before_request():
-    db = MongoClient().client.gnomeDb
+    db = MongoClient().gnomeDb
     g.db = db
     g.user = bauth.try_to_get_user()
 
