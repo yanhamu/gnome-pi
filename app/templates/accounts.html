@@ -1,12 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
     <h1>accounts</h1>
+    
+    <table class="table table-striped">
     {% for account in model %}
-        <li>{{account['name']}}</li>
+        <tr>
+            <td>
+                <a href="/accounts/{{account['_id']}}">{{account['name']}}</a>
+            </td>
+        <tr>
     {% endfor %}
-    
-    <a href="/">Create new</a>
-    
+    </table>
     <form method='post' action='/accounts'>
         <input class='btn btn-default' value='create new' type='submit'/>
     </form>

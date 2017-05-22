@@ -60,9 +60,16 @@ def account(id):
     if form.validate_on_submit():
         accounts.update(id, {'name':form.name.data})
     else:
-        flash(form.errors)
+        if len(form.errors) > 0:
+            flash(form.errors)
         form.name.data = account['name']
-    return render_template('account.html', title='Account', form=form)
+    return render_template('account.html', title='Account', form=form, id=id)
+    
+@app.route('/accounts/<id>', methods=['DELETE'])
+@bauth.bauth
+def remove_account(id):
+    accounts.remove_account(id)
+    return redirect('/accounts')
     
 @app.route('/dashboard')
 @bauth.bauth
