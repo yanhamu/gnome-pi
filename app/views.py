@@ -50,14 +50,18 @@ def accounts_index():
 @bauth.bauth
 def accounts_create():
     new_account = accounts.create_new()
-    return redirect('accounts/{0}'.format(new_account['id']))
+    return redirect('accounts/{0}'.format(new_account))
 
-@app.route('/accounts/<int:id>', methods=['GET','POST'])
+@app.route('/accounts/<id>', methods=['GET','POST'])
 @bauth.bauth
 def account(id):
     account = accounts.get_account(id)
     form = accounts.AccountForm()
-    form.name.data = account['name']
+    if form.validate_on_submit():
+        accounts.update(id, {'name':form.name.data})
+    else:
+        flash(form.errors)
+        form.name.data = account['name']
     return render_template('account.html', title='Account', form=form)
     
 @app.route('/dashboard')

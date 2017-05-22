@@ -3,6 +3,7 @@
     <h1>Account {{ form.name.data }}</h1>
     
     <form method='post'>
+    {{ form.hidden_tag() }}
         <div class="form-group">
             <label for="name">Name</label>
             {{ form.name(class_="form-control") }}
