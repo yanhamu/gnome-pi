@@ -6,6 +6,7 @@ from bson.objectid import ObjectId
 
 class AccountForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
+    token = StringField('Token')
 
 def get_accounts():
     id = g.user['_id']
@@ -14,7 +15,7 @@ def get_accounts():
     
 def create_new():
     user_id = g.user['_id']
-    new_account = {'_user_id':user_id, 'name':'new account', 'type':'fio'}    
+    new_account = {'_user_id':user_id, 'name':'new account', 'type':'fio', 'token':''}    
     inserted = g.db.accounts.insert_one(new_account)
     return inserted.inserted_id
 
@@ -32,9 +33,12 @@ def remove_account(id):
 def update(id, account):
     toUpdate = get_account(id)
     toUpdate['name'] = account['name']
+    toUpdate['token'] = account['token']
+    
     g.db.accounts.update_one(
         {'_id':toUpdate['_id']},
         {'$set':{
-            'name':toUpdate['name']
+            'name':toUpdate['name'],
+            'token':toUpdate['token']
         }}
     )

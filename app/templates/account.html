@@ -8,10 +8,13 @@
             <label for="name">Name</label>
             {{ form.name(class_="form-control") }}
         </div>
+        <div class="form-group">
+            {{ form.token(class_="form-control") }}
+        </div>
         <input type="submit" value="save" class="btn btn-default" />
     </form>
     
-    <form method='delete'>
+    <form method='post' action="/accounts/{{id}}/delete">
     {{ form.hidden_tag() }}
         <input type="submit" value="delete" class="btn btn-default" />
     </form>

@@ -58,14 +58,19 @@ def account(id):
     account = accounts.get_account(id)
     form = accounts.AccountForm()
     if form.validate_on_submit():
-        accounts.update(id, {'name':form.name.data})
+        accounts.update(id, {
+            'name':form.name.data,
+            'token':form.token.data
+        })
     else:
         if len(form.errors) > 0:
             flash(form.errors)
         form.name.data = account['name']
+        form.token.data = account['token']
+        
     return render_template('account.html', title='Account', form=form, id=id)
     
-@app.route('/accounts/<id>', methods=['DELETE'])
+@app.route('/accounts/<id>/delete', methods=['POST'])
 @bauth.bauth
 def remove_account(id):
     accounts.remove_account(id)
