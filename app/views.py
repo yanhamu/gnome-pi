@@ -1,5 +1,5 @@
 from flask import render_template, redirect, flash, request, g
-from app import app, auth, bauth, accounts
+from app import app, auth, bauth, accounts, dashboard
 from pymongo import MongoClient
 
 @app.route('/')
@@ -78,8 +78,9 @@ def remove_account(id):
     
 @app.route('/dashboard')
 @bauth.bauth
-def dashboard():
-    return render_template('dashboard.html')
+def dashboard_index():
+    data = dashboard.get_top(g.db, g.user['_id'])
+    return render_template('dashboard.html', data = data)
     
 @app.before_request
 def before_request():
