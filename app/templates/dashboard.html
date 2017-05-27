@@ -2,12 +2,26 @@
 {% block content %}
     <h1>dashboard</h1>
     
+    {% macro render_field(transaction, field_name) %}
+        <td>
+            {{ transaction[field_name] }}
+        </td>
+    {% endmacro %}
+
+    {% macro render(field) %}
+        <td>
+            {{ field }}
+        </td>
+    {% endmacro %}
+
     <table class="table table-striped">
         {% for t in data %}
         <tr>
-            <td>
-                {{ t.account_number }}
-            </td>
+            {{ render(t['date'].date()) }}
+            {{ render_field(t, 'amount') }}
+            {{ render_field(t, 'type') }}
+            {{ render_field(t, 'account_number') }}
+            {{ render_field(t, 'user_identification') }}
         </tr>
         {% endfor %}
     </table>
