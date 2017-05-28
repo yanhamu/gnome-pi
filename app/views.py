@@ -89,6 +89,12 @@ def remove_account(id):
     return redirect('/accounts')
 
 
+@app.route('/accounts/<account_id>/transactions')
+@bauth.bauth
+def index_transactions(account_id):
+    return render_template('transactions.html')
+
+
 @app.route('/dashboard')
 @bauth.bauth
 def dashboard_index():
