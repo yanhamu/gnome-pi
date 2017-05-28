@@ -1,0 +1,28 @@
+{% extends "base.html" %} {% block content %}
+<h1>draft report</h1>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
+<canvas id="myChart"></canvas>
+<script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+            datasets: [{
+                label: 'revenues',
+                data: [10, 10, 12, 10, 12, 12, 14],
+                backgroundColor: "rgba(31, 236, 8, 0.4)"
+            }, {
+                label: 'expences',
+                data: [9, 11, 11, 10, 12, 11, 12],
+                backgroundColor: "rgba(241, 37, 18, 0.4)"
+            }, {
+                label: 'gain',
+                data: [1, -1, 1, 0, 0, 1, 2],
+                backgroundColor: "rgba(63, 127, 191, 0.40)"
+            }]
+        }
+    });
+
+</script>
+{% endblock %}

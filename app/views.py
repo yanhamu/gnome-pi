@@ -97,8 +97,28 @@ def dashboard_index():
     return render_template('dashboard.html', data=data)
 
 
+@app.route('/reports')
+@bauth.bauth
+def reports_index():
+    '''
+    records management
+    '''
+    return render_template('reports.html')
+
+@app.route('/draft-report')
+@bauth.bauth
+def draft_report():
+    '''
+    handles simple draft report
+    proof of concept
+    '''
+    return render_template('draft-report.html')
+
 @app.before_request
 def before_request():
+    '''
+    prepares global objects
+    '''
     db = MongoClient().gnomeDb
     g.db = db
     g.user = bauth.try_to_get_user()
