@@ -105,6 +105,7 @@ def reports_index():
     '''
     return render_template('reports.html')
 
+
 @app.route('/draft-report')
 @bauth.bauth
 def draft_report():
@@ -112,7 +113,25 @@ def draft_report():
     handles simple draft report
     proof of concept
     '''
-    return render_template('draft-report.html')
+    d = {
+        'labels': ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+        'datasets': [
+            {
+                'label': 'revenue',
+                'data': [10, 10, 12, 10, 12, 12, 14],
+                'backgroundColor':"rgba(31, 236, 8, 0.4)"},
+            {
+                'label': 'expences',
+                'data': [9, 11, 11, 10, 12, 11, 12],
+                'backgroundColor': "rgba(241, 37, 18, 0.4)"},
+            {
+                'label': 'gain',
+                'data': [1, -1, 1, 0, 0, 1, 2],
+                'backgroundColor': "rgba(63, 127, 191, 0.4)"}]
+    }
+
+    return render_template('draft-report.html', data=d)
+
 
 @app.before_request
 def before_request():
