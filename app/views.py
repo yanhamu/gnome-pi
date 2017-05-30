@@ -2,10 +2,11 @@
     Contains basic routes and passes control to appropriate services
 '''
 
-from flask import render_template, redirect, flash, g
+from flask import render_template, redirect, flash, g, request
 from app import app, auth, bauth, accounts, dashboard
 from pymongo import MongoClient
 from app.mod_transactions import transactions
+
 
 @app.route('/')
 @app.route('/index')
@@ -105,9 +106,13 @@ def transaction_detail(transaction_id):
 @app.route('/dashboard')
 @bauth.bauth
 def dashboard_index():
-    data = dashboard.get_top(g.db, g.user['_id'])
-    print(len(data))
-    return render_template('dashboard.html', data=data)
+    '''
+    Returns last 10 transactions
+    '''
+    page = int(request.args.get('page', default='0'))
+    print(page)
+    data = dashboard.get_top(g.db, g.user['_id'], page)
+    return render_template('dashboard.html', data=data, page = page)
 
 
 @app.route('/reports')
