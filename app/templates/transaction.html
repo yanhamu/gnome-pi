@@ -2,4 +2,17 @@
 {% block content %}
 <h1>transaction</h1>
 
+<table class="table table-striped">
+{% for key in data.keys() %}
+    <tr>
+        <td>
+            {{ key }}
+        </td>
+        <td>
+            {{ data[key] }}
+        </td>
+    </tr>
+{% endfor %}
+</table>
+
 {% endblock %}

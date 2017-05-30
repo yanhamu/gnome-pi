@@ -5,7 +5,7 @@
 from flask import render_template, redirect, flash, g
 from app import app, auth, bauth, accounts, dashboard
 from pymongo import MongoClient
-
+from app.mod_transactions import transactions
 
 @app.route('/')
 @app.route('/index')
@@ -98,7 +98,8 @@ def index_transactions(account_id):
 @app.route('/transactions/<transaction_id>')
 @bauth.bauth
 def transaction_detail(transaction_id):
-    return render_template('transaction.html')
+    data = transactions.get_transaction(transaction_id)
+    return render_template('transaction.html', data=data)
 
 
 @app.route('/dashboard')
