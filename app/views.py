@@ -66,8 +66,7 @@ def accounts_create():
 
 @app.route('/accounts/<id>', methods=['GET', 'POST'])
 @bauth.bauth
-def account(id):
-    account = accounts.get_account(id)
+def account_index(id):
     form = accounts.AccountForm()
     if form.validate_on_submit():
         accounts.update(id, {
@@ -75,8 +74,9 @@ def account(id):
             'token': form.token.data
         })
     else:
-        if len(form.errors) > 0:
+        if form.errors:
             flash(form.errors)
+        account = accounts.get_account(id)
         form.name.data = account['name']
         form.token.data = account['token']
 
@@ -110,9 +110,8 @@ def dashboard_index():
     Returns last 10 transactions
     '''
     page = int(request.args.get('page', default='0'))
-    print(page)
-    data = dashboard.get_top(g.db, g.user['_id'], page)
-    return render_template('dashboard.html', data=data, page = page)
+    data = transactions.get_last_transactions(page)
+    return render_template('dashboard.html', data=data, page=page)
 
 
 @app.route('/reports')
