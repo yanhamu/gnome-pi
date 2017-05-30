@@ -95,6 +95,12 @@ def index_transactions(account_id):
     return render_template('transactions.html')
 
 
+@app.route('/transactions/<transaction_id>')
+@bauth.bauth
+def transaction_detail(transaction_id):
+    return render_template('transaction.html')
+
+
 @app.route('/dashboard')
 @bauth.bauth
 def dashboard_index():
