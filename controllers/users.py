@@ -2,7 +2,6 @@ from flask_restful import Resource
 from flask import request
 from services import user
 
-
 class User(Resource):
     def post(self):
         data = request.get_json()

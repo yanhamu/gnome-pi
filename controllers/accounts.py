@@ -2,10 +2,12 @@ from flask_restful import Resource
 from flask import request
 import services.account
 from models.model import Account
+import basic_auth
 
 
 class AccountController(Resource):
     '''Handles requests for account'''
+    decorators = [basic_auth.auth]
 
     def post(self):
         '''creates new account'''
