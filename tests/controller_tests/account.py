@@ -4,13 +4,7 @@ import unittest
 from unittest.mock import patch
 from flask import json, g
 from api import app
-
-
-def get_fake_user():
-    return "X"
-
-def get_fake_db():
-    return "X"
+from tests.controller_tests import fake
 
 
 class AccountTestCase(unittest.TestCase):
@@ -18,11 +12,12 @@ class AccountTestCase(unittest.TestCase):
 
     @patch('api.get_user_data')
     @patch('api.get_db_connection')
-    def test_post_200(self, get_user_data, get_db_connection):
+    def test_post_200(self, get_user, get_db_connection):
         """Should create new account for user"""
 
-        get_user_data.side_effect = get_fake_user
-        get_db_connection.side_effect = get_fake_db
+        # mocking to be fixed!
+        get_user.return_value = fake.get_fake_user()
+        #get_db_connection.side_effect = fake.get_fake_db
 
         test_app = app.test_client()
 

@@ -1,6 +1,6 @@
 from flask_restful import Resource
-from flask import request
-import services.account
+from flask import request, g
+from services.account import AccountService
 from models.model import Account
 import basic_auth
 
@@ -17,5 +17,9 @@ class AccountController(Resource):
         token = data['token']
         account = Account(1, name, token)
 
-        services.account.create_account(account)
+        print(g.user)
+        # mocking to be fixed
+
+        service = AccountService(g.db, g.user['_id'])
+        service.create_account(account)
         return '123'

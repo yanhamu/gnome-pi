@@ -19,14 +19,17 @@ api.add_resource(authentication.Authentication, '/gettoken')
 
 @app.before_request
 def init_request():
+    """initializes database connection and user if possible"""
     g.db = get_db_connection()
     g.user = get_user_data()
 
 
 def get_user_data():
+    """retrieves user if possible"""
     return authentication.try_to_get_user()
 
 def get_db_connection():
+    """initializes database connection"""
     return MongoClient().gnomeDb
 
 
