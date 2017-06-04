@@ -9,8 +9,9 @@ class Authentication(Resource):
 
     def post(self):
         """generates token if possible"""
-        username = request.json['username']
-        password = request.json['password']
+        json = request.get_json()
+        username = json['email']
+        password = json['password']
 
         auth = services.authentication.Authentication()
         token = auth.get_token(username, password)
@@ -18,4 +19,4 @@ class Authentication(Resource):
         if token is None:
             return '', 401
         else:
-            return token
+            return str(token)
