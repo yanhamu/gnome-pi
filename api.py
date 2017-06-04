@@ -8,7 +8,7 @@ app = Flask(__name__)
 api = Api(app)
 
 ##
-## Actually setup the Api resource routing here
+# Actually setup the Api resource routing here
 ##
 api.add_resource(todos.TodoList, '/todos')
 api.add_resource(todos.Todo, '/todos/<todo_id>')
@@ -16,10 +16,19 @@ api.add_resource(users.User, '/users')
 api.add_resource(accounts.AccountController, '/accounts')
 api.add_resource(authentication.Authentication, '/gettoken')
 
+
 @app.before_request
-def before_request():
-    g.db = MongoClient().gnomeDb
-    g.user = authentication.try_to_get_user()
+def init_request():
+    g.db = get_db_connection()
+    g.user = get_user_data()
+
+
+def get_user_data():
+    return authentication.try_to_get_user()
+
+def get_db_connection():
+    return MongoClient().gnomeDb
+
 
 if __name__ == '__main__':
     app.run(debug=True)
