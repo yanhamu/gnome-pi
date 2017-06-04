@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_restful import Api
 
-from controllers import users, todos, authentication
+from controllers import users, todos, authentication, accounts
 
 app = Flask(__name__)
 api = Api(app)
@@ -12,6 +12,7 @@ api = Api(app)
 api.add_resource(todos.TodoList, '/todos')
 api.add_resource(todos.Todo, '/todos/<todo_id>')
 api.add_resource(users.User, '/users')
+api.add_resource(accounts.AccountController, '/accounts')
 api.add_resource(authentication.Authentication, '/gettoken')
 
 
