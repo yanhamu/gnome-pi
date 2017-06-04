@@ -1,22 +1,19 @@
-"""Tests for authentication controller"""
+"""Tests for users controller"""
 
 import unittest
 from flask import json
 import api
 
 
-class AuthenticationTestCase(unittest.TestCase):
-    """Authentication test case"""
+class UserTestCase(unittest.TestCase):
+    """User test case"""
 
     def test_post_200(self):
-        """Testing with correct credentials"""
-
+        """ Tests creation of new user"""
         test_app = api.app.test_client()
-
-        data = json.dumps(dict(email='email', password='password'))
-
+        data = json.dumps(dict(email='email@email.com', password='password'))
         response = test_app.post(
-            '/gettoken',
+            '/users',
             data=data,
             content_type='application/json')
 
