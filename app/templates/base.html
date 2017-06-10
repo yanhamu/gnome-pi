@@ -1,68 +1,50 @@
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewvport" content="width=device-width, initial-scale=1">
 
-        <link href="/static/css/bootstrap.min.css" rel="stylesheet">
-
-        {% if title %}
-        <title>{{ title }}</title>
-        {% else %}
-        <title>Welcome to Gnome</title>
-        {% endif %}
-    </head>
-    <body>
-        <div class="container">
-            <nav class="navbar navbar-default">
-                <div class="container-fluid">
-                    <div class="navbar-header">
-                        {% if g.user %}
-                        <a class="navbar-brand" href="/dashboard">gnome</a>
-                        {% else %}
-                        <a class="navbar-brand" href="/">gnome</a>
-                        {% endif %}
-                    </div>
-                    <div id="navbar" class="navbar-collapse collapse">
-                        {% if g.user %}
-                        <ul class="nav navbar-nav">
-                            <li>
-                                <a href="/accounts">accounts</a>
-                            </li>
-                            <li>
-                                <a href="/reports">reports</a>
-                            </li>
-                        </ul>
-                        {% endif %}
-                        <ul class="nav navbar-nav navbar-right">
-                            <li>
-                                {% if g.user %}
-                                <a href="/logout">log out</a>
-                                {% else %}
-                                <a href="/login">log in</a>
-                                {% endif %}
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
+<body>
+    <div class="container">
+        <nav class="navbar navbar-default">
             <div class="container-fluid">
-                {% with messages = get_flashed_messages() %}
-                    {% if messages %}
-                    <div class="row">
-                        <ul>
-                        {% for message in messages %}
-                            <li>{{ message }} </li>
-                        {% endfor %}
-                        </ul>
-                    </div>
+                <div class="navbar-header">
+                    {% if g.user %}
+                    <a class="navbar-brand" href="/dashboard">gnome</a> {% else %}
+                    <a class="navbar-brand" href="/">gnome</a> {% endif %}
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    {% if g.user %}
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="/accounts">accounts</a>
+                        </li>
+                        <li>
+                            <a href="/reports">reports</a>
+                        </li>
+                    </ul>
                     {% endif %}
-                {% endwith %}
-            {% block content %}{% endblock %}
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            {% if g.user %}
+                            <a href="/logout">log out</a> {% else %}
+                            <a href="/login">log in</a> {% endif %}
+                        </li>
+                    </ul>
+                </div>
             </div>
+        </nav>
+        <div class="container-fluid">
+            {% with messages = get_flashed_messages() %} {% if messages %}
+            <div class="row">
+                <ul>
+                    {% for message in messages %}
+                    <li>{{ message }} </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %} {% endwith %} {% block content %}{% endblock %}
         </div>
+    </div>
 
-        <script src="/static/js/jquery-1-12-4.min.js"></script>
-        <script src="/static/js/bootstrap.min.js"></script>
-    </body>
+    <script src="app/js/jquery-1-12-4.min.js"></script>
+    <script src="app/js/bootstrap.min.js"></script>
+</body>
+
 </html>
